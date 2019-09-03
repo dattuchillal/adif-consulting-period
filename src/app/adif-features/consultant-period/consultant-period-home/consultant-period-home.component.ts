@@ -44,6 +44,14 @@ export class ConsultantPeriodHomeComponent implements OnInit, OnDestroy {
     });
     this.periodoControl = this.consultingPeriodsManagement.get('periodo');
     this.codigoControl = this.consultingPeriodsManagement.get('codigo');
+    this.periodoControl.valueChanges
+    .pipe(
+      takeUntil(this.unsubscribe),
+      distinctUntilChanged()
+    )
+    .subscribe(currentDate => {
+      this.initialStatus();
+    });
   }
 
   ngOnInit() {
