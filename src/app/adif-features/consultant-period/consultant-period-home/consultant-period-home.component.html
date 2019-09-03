@@ -1,0 +1,42 @@
+<div class="container">
+  <form [formGroup]="consultingPeriodsManagement" (ngSubmit)="consultingPeriodsManagementSubmit()" novalidate>
+    <div class="row">
+        <div class="col-sm-6">
+          <mat-form-field appearance="outline">
+              <mat-label>{{'Expediente selection'}}</mat-label>
+              <input matInput [matDatepicker]="periodo"
+                      placeholder="DD / MM / YYYY"
+                      formControlName="periodo"
+                      (focus)="periodo.open()"
+                      [matDatepickerFilter]="firstDayOfMonth">
+              <mat-datepicker-toggle matSuffix [for]="periodo"></mat-datepicker-toggle>
+              <mat-datepicker #periodo></mat-datepicker>
+              <mat-error *ngIf="hasError('periodo', 'required')">{{'Campo obligatorio'}}</mat-error>
+              <mat-error *ngIf="hasError('periodo', 'matDatepickerMin')">{{'Fecha invalida'}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field  appearance="outline">
+              <mat-label>Period selection</mat-label>
+              <mat-select id="codigo" formControlName="codigo" (selectionChange)="initialStatus()">
+                <mat-option *ngFor="let codigo of codigo$ | async" [value]="codigo.codigo_sap_expediente">
+                  {{codigo.codigo_sap_expediente}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="hasError('codigo', 'required')">{{'Campo obligatorio'}}</mat-error>
+            </mat-form-field>
+          </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-4 text-center">
+          <button mat-raised-button color="primary" class="process">Procesar</button>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-8 mt-4 py-2 status d-flex justify-content-center">
+          <div>Current Status <span *ngIf="status">: {{status}}</span></div>
+          <div class="whileLoading"><mat-spinner *ngIf="whileLoading" [diameter]="15"></mat-spinner></div>
+      </div>
+    </div>
+  </form>
+</div>

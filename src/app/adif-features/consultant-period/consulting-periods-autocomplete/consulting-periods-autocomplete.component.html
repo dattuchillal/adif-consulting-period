@@ -1,0 +1,17 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label}}</mat-label>
+  <input type="text" matInput 
+          [formControl]="contultingPeriodsControl" 
+          [matAutocomplete]="auto"
+          [attr.aria-label]="label" 
+          [placeholder]="label" 
+          (blur)="markAsTouched()" 
+          [errorStateMatcher]="matcher">
+  <mat-icon matSuffix *ngIf="whileLoading"><mat-spinner [diameter]="15"></mat-spinner></mat-icon>
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let period of matchingPeriods$ | async" [value]="period">
+      {{displayFn(period)}}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="hasError(contultingPeriodsControl)">{{'Campo obligatorio'}}</mat-error>
+</mat-form-field>
